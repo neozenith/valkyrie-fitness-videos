@@ -1,0 +1,9 @@
+[project]
+name = "valkyrie-fitness-videos"
+version = "0.1.0"
+description = "Generate fitness videos with Vertex AI"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "google-cloud-aiplatform>=1.35.0",  # For Vertex AI integration
+]
