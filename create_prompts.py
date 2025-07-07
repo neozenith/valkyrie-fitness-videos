@@ -7,7 +7,7 @@ import sys
 import time
 
 # --- Configuration ---
-PROJECT_ID = "your-gcp-project-id"  # <--- REPLACE with your Project ID
+PROJECT_ID = "valkyrie-fitness"  # <--- REPLACE with your Project ID
 LOCATION = "us-central1"
 
 def list_target_prompts(exercises_file):
@@ -60,8 +60,14 @@ def construct_meta_prompt(global_context, exercise_name, exercise_data, video_nu
     """
     return meta_prompt
 
-def generate_all_prompts(context_file, exercises_file):
-    """Main function to generate all prompt files."""
+def generate_all_prompts(context_file, exercises_file, overwrite=False):
+    """Main function to generate all prompt files.
+    
+    Args:
+        context_file: Path to the context markdown file
+        exercises_file: Path to the exercises JSON file
+        overwrite: If True, overwrite existing prompt files; if False, skip them
+    """
     
     print("Loading context and exercise files...")
     try:
@@ -87,6 +93,11 @@ def generate_all_prompts(context_file, exercises_file):
                 output_filename = f"prompt_{video_num:02d}_lead_{char_key}.md"
                 output_filepath = os.path.join(output_dir, output_filename)
                 
+                # Skip existing files unless overwrite is specified
+                if os.path.exists(output_filepath) and not overwrite:
+                    print(f"--- Skipping existing file: {output_filepath} ---")
+                    continue
+                
                 print(f"--- Generating prompt for: {output_filepath} ---")
                 meta_prompt = construct_meta_prompt(global_context, exercise_name, exercise_data, video_num, lead_character)
                 
@@ -107,6 +118,7 @@ if __name__ == "__main__":
     parser.add_argument("exercises_file", help="Path to the exercises.json file.")
     parser.add_argument("context_file", nargs='?', default=None, help="Path to the context.md file (only required for generation).")
     parser.add_argument("--list-outputs", action="store_true", help="List all potential prompt file paths without generating them.")
+    parser.add_argument("--overwrite", action="store_true", help="Overwrite existing prompt files instead of skipping them.")
     
     args = parser.parse_args()
     
@@ -116,4 +128,4 @@ if __name__ == "__main__":
         if not args.context_file:
             print("Error: context_file is required when not using --list-outputs.", file=sys.stderr)
             sys.exit(1)
-        generate_all_prompts(args.context_file, args.exercises_file)
+        generate_all_prompts(args.context_file, args.exercises_file, args.overwrite)

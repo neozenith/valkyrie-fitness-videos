@@ -6,7 +6,7 @@ import argparse
 import sys
 
 # --- Configuration ---
-PROJECT_ID = "your-gcp-project-id"  # <--- REPLACE with your Project ID
+PROJECT_ID = "valkyrie-fitness"  # <--- REPLACE with your Project ID
 LOCATION = "us-central1"           # Veo is available in specific regions
 
 def generate_video_from_prompt_file(prompt_file_path: str):

@@ -44,6 +44,12 @@ uv sync
 # Install Google Cloud CLI if you haven't already
 # Visit: https://cloud.google.com/sdk/docs/install
 
+```sh
+curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-darwin-arm.tar.gz
+tar -xzf google-cloud-cli-darwin-arm.tar.gz
+./google-cloud-sdk/install.sh
+```
+
 # Login to Google Cloud
 gcloud auth login
 
